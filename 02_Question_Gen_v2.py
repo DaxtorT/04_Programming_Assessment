@@ -77,13 +77,13 @@ types_list = ["geometry", "basic", "mixed"]
     # alg_med_questions = [a=b(c+x), a=b(c-x), a=x(b-c), a=b(c*x), a=x(b*c), a=b(c/x), a=x(b/c)]
     # alg_hrd_questions = [a=b*c+x^2, a=x+b*c/d, a=b*c/d+x, a=b+c^2(x+d), a=(b^2)-c+x]
 
-geo_eas_questions = [f"Triangle with perimeter {a}, length {b} and width {c} what is the last side length? ",
-                     f"Square with perimeter {a}, what is the width? ",
-                     f"Rectangle with perimeter {a}, length {b}, what is the width? "
+geo_eas_questions = ["Triangle with perimeter <a>, length <b>. and width <c> what is the last side length? ",
+                     "Square with perimeter <a>, what is the width? ",
+                     "Rectangle with perimeter <a>, length <b>, what is the width? "
                     ]
-geo_eas_equations = [f"{a}-{b}-{c}",
-                     f"sqrt({a})",
-                     f"{a}-2*{b}"
+geo_eas_equations = ["<a>-<b>-<c>",
+                     "sqrt(<a>)",
+                     "<a>-2*<b>"
                     ]
 
 geo_med_questions = ["Triangle with length {a} and width {b} what is the hypotenuse? ",
@@ -180,10 +180,13 @@ while loop == "y":
     elif user_type_choice == "geometry":
         negatives_allowed = "no"
         if user_difficulty_choice == "easy":
+            equations = geo_eas_equations
             questions = geo_eas_questions
         elif user_difficulty_choice == "medium":
+            equations = geo_med_equations
             questions = geo_med_questions
         else:
+            equations = geo_hrd_equations
             questions = geo_hrd_questions
 
     else:
@@ -207,15 +210,26 @@ while loop == "y":
     print(f"Question num to choose {random_question_num}")
     print()
 
-    #a = main_rng(1, 20)
-    #b = main_rng(1, 20)
-    #c = main_rng(1, 20)
-    
-    a = 5
-    b = 2
-    c = 1
+    a = str(main_rng(1, 20))
+    b = str(main_rng(1, 20))
+    c = str(main_rng(1, 20))
 
-    print(questions[random_question_num-1])        
+    # Use replace() to enter the a, b & c numbers into question
+    question_with_a = questions[random_question_num-1].replace("<a>", a)
+    question_with_b = question_with_a.replace("<b>", b)
+    question_with_c = question_with_b.replace("<c>", c)
+    print(f"Question: {question_with_c}")
+    
+    # Use replace() to enter the a, b & c numbers into equation
+    equation_with_a = equations[random_question_num-1].replace("<a>", a)
+    equation_with_b = equation_with_a.replace("<b>", b)
+    equation_with_c = equation_with_b.replace("<c>", c)
+    print(f"Equation: {equation_with_c}")
+          
+    # Evaluate equation to get answer
+    expected_answer = eval(equation_with_c)
+    print(expected_answer)
+
 
     # Temp loop
     print()
