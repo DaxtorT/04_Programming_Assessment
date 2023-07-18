@@ -51,7 +51,7 @@ def choice_checker(question, error, valid_list):
             if response == item[0] or response == item:
                 return response
 
-        # Output error if response not in list
+        # Output error if response not in list        
         print(error)
         print()
 
@@ -77,11 +77,16 @@ geo_eas_questions = ["Square with perimeter <x>, what is the width? ",
                      "Rectangle with perimeter <x>, width <w>, what is the length? ",
                      "Rectangle with width <w>, length <l>, what is the perimeter? "
                     ]
-geo_eas_equations = {"4 * <w>" : "<x>",
-                     "2 * (<w> + <l>)" : "<w>",
-                     "2 * (<l> + <w>)" : "<l>",
-                     "(<w> + <l>) * 2" : "<x>"
-                    }
+geo_eas_equations = ["4 * <w>",
+                     "2 * (<w> + <l>)",
+                     "2 * (<l> + <w>)",
+                     "(<w> + <l>) * 2"
+                    ]
+geo_eas_answers = ["<w>",
+                   "<w>",
+                   "<l>",
+                   "<x>"
+                  ]
 
 geo_med_questions = ["Triangle with length {a} and width {b} what is the hypotenuse? ",
                      "Triangle with length {a} and hypotenuse {b} what is the width? ",
@@ -91,6 +96,11 @@ geo_med_equations = ["Triangle with length {a} and width {b} what is the hypoten
                      "Triangle with length {a} and hypotenuse {b} what is the width? ",
                      "Triangle with width {a} and hypotenuse {b} what is the length? "
                     ]
+geo_med_answers = ["<x>",
+                   "<w>",
+                   "<l>",
+                   "<x>"
+                  ]
 
 geo_hrd_questions = ["Rectangle with perimeter {a} and length {b} what is the area? ",
                      "Square with perimeter {a} what is the area? ",
@@ -102,7 +112,11 @@ geo_hrd_equations = ["Rectangle with perimeter {a} and length {b} what is the ar
                      "Triangle with length {a}, width {b} what is the area? ",
                      "Triangle with hypotenuse {a} and length {b} what is the area? "
                     ]
-
+geo_hrd_answers = ["<x>",
+                   "<w>",
+                   "<l>",
+                   "<x>"
+                  ]
 
 # Temp Loop
 loop = "y"
@@ -115,59 +129,57 @@ while loop == "y":
 
     # If / Elif for difficulity choice
     if user_difficulty_choice == "easy":
-        # Equations Dictionary
+        # Sets Equation List
         equations = geo_eas_equations
-        # Questions List
+        # Sets Question List
         questions = geo_eas_questions
+        # Sets Answer List
+        answers = geo_eas_answers
+
     elif user_difficulty_choice == "medium":
-        # Equations Dictionary
+        # Sets Equation List
         equations = geo_med_equations
-        # Questions List
+        # Sets Question List
         questions = geo_med_questions
+        # Sets Answer List
+        answers = geo_med_answers
+
     elif user_difficulty_choice == "hard":
-        # Equations Dictionary
+        # Sets Equation List
         equations = geo_hrd_equations
-        # Questions List
+        # Sets Question List
         questions = geo_hrd_questions
-
-    # Print question list for testing
-    print(f"List of Questions: {questions}")
-    print()
-
-    # Print equation dictionary for testing
-    for equation_solver, equation_answer in equations.items():
-        print(f"Equa: {equation_solver}, Ans: {equation_answer}")
-    print()
+        # Sets Answer List
+        answers = geo_hrd_answers
 
     # Random question gen
     chosen_list_len = len(questions)
     print(f"Length of list: {chosen_list_len}")
 
-    # Adjusted to account for zero-based indexing
-    random_question_num = random.randint(0, chosen_list_len-1)
+    random_question_num = random.randint(1, chosen_list_len)
     print(f"Question num to choose: {random_question_num}")
-    print(f"Question to replace: {list(equations.keys())[random_question_num]}")
+    print(f"Question to replace: {equations[random_question_num-1]}")
     print()
 
     # Generates numbers between set range
     w = main_rng(1, 20)
     l = main_rng(1, 20)
         
-    # Use replace() to enter the b & c numbers into equation
-    replaced_equation = list(equations.values())[random_question_num].replace("<w>", str(w)).replace("<l>", str(l))
+    # Use replace() to enter the width & length numbers into equation
+    replaced_equation = equations[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l))
     print(f"Equation: {replaced_equation}")
 
-    # Evaluate equation to get answer
+    # Evaluate equation to get value of 'x'
     x = eval(replaced_equation) 
-    expected_answer = x
-    print(expected_answer)
+       
+    # Use replace() to insert the width, length or 'x' numbers into answer
+    replaced_answer = answers[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
+    print(f"Answer: {replaced_answer}")
 
-    # Use replace() to enter the a, b & c numbers into question
-    question_with_a = questions[random_question_num-1].replace("<x>", str(x))
-    question_with_b = question_with_a.replace("<w>", str(w))
-    question_with_c = question_with_b.replace("<l>", str(l))
-    print(f"Question: {question_with_c}")
+    # Use replace() to enter the width, length & 'x' numbers into question
+    replaced_question = questions[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
+    print(f"Question: {replaced_question}")
           
     # Temp loop
     print()
-    loop = input("Do you want loop? (y/n): ")
+    input(print("Do you want loop? "))

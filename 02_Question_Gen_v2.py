@@ -82,8 +82,8 @@ geo_eas_questions = ["Triangle with perimeter <a>, length <b>. and width <c> wha
                      "Rectangle with perimeter <a>, length <b>, what is the width? "
                     ]
 geo_eas_equations = ["<a>-<b>-<c>",
-                     "sqrt(<a>)",
-                     "<a>-2*<b>"
+                     "<a>/<a>",
+                     "<a>-2*<b>" 
                     ]
 
 geo_med_questions = ["Triangle with length {a} and width {b} what is the hypotenuse? ",
@@ -210,10 +210,16 @@ while loop == "y":
     print(f"Question num to choose {random_question_num}")
     print()
 
+    # Generates numbers between set range
     a = str(main_rng(1, 20))
-    b = str(main_rng(1, 20))
-    c = str(main_rng(1, 20))
-
+    # If negatives are not allowed we need to add a height limit to the random numbers
+    if negatives_allowed == "no":
+        b = str(main_rng(1, int(a)))
+        c = str(main_rng(1, int(b)))
+    else:
+        b = str(main_rng(1, 20))
+        c = str(main_rng(1, 20))
+    
     # Use replace() to enter the a, b & c numbers into question
     question_with_a = questions[random_question_num-1].replace("<a>", a)
     question_with_b = question_with_a.replace("<b>", b)

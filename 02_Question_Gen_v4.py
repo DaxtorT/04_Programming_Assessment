@@ -63,25 +63,17 @@ def main_rng(low, high):
     return random_num
 
 # Main Routine goes here
-a = 0
-b = 0
-c = 0
-
 # List & Dicts for program
 difficulties_list = ["easy", "medium", "hard"]
 types_list = ["geometry", "basic", "mixed"]
 
 # Lists of Questions
-geo_eas_questions = ["Square with perimeter <x>, what is the width? ",
-                     "Rectangle with perimeter <x>, length <l>, what is the width? ",
-                     "Rectangle with perimeter <x>, width <w>, what is the length? ",
-                     "Rectangle with width <w>, length <l>, what is the perimeter? "
+geo_eas_questions = ["Square with perimeter <x>, what is the width? "
                     ]
-geo_eas_equations = {"4 * <w>" : "<x>",
-                     "2 * (<w> + <l>)" : "<w>",
-                     "2 * (<l> + <w>)" : "<l>",
-                     "(<w> + <l>) * 2" : "<x>"
-                    }
+geo_eas_equations = ["4 * <w>"
+                    ]
+geo_eas_answers = ["<x>"
+                  ]
 
 geo_med_questions = ["Triangle with length {a} and width {b} what is the hypotenuse? ",
                      "Triangle with length {a} and hypotenuse {b} what is the width? ",
@@ -152,10 +144,13 @@ while loop == "y":
     # Generates numbers between set range
     w = main_rng(1, 20)
     l = main_rng(1, 20)
-        
+    print(f"w: {w}, l: {l}")    
+    
     # Use replace() to enter the b & c numbers into equation
-    replaced_equation = list(equations.values())[random_question_num].replace("<w>", str(w)).replace("<l>", str(l))
-    print(f"Equation: {replaced_equation}")
+    replaced_equation = list(equations.values())[random_question_num].replace("<w>", str(w))
+    print(f"Equation 1: {replaced_equation}")
+    last_equation = replaced_equation.replace("<w>", str(w))
+    print(f"Equation 2: {last_equation}")
 
     # Evaluate equation to get answer
     x = eval(replaced_equation) 
