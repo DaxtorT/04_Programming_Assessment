@@ -118,7 +118,7 @@ geo_hrd_answers = ["<x>",
                    "<x>"
                   ]
 
-# Temp Loop
+# Loop for difficulty
 loop = "y"
 while loop == "y":
 
@@ -152,34 +152,42 @@ while loop == "y":
         # Sets Answer List
         answers = geo_hrd_answers
 
-    # Random question gen
-    chosen_list_len = len(questions)
-    print(f"Length of list: {chosen_list_len}")
+    # Loop for questions
+    loop_2 = "y"
+    while loop_2 == "y":
 
-    random_question_num = random.randint(1, chosen_list_len)
-    print(f"Question num to choose: {random_question_num}")
-    print(f"Question to replace: {equations[random_question_num-1]}")
-    print()
+        # Random question gen
+        chosen_list_len = len(questions)
+        print(f"Length of list: {chosen_list_len}")
 
-    # Generates numbers between set range
-    w = main_rng(1, 20)
-    l = main_rng(1, 20)
+        random_question_num = random.randint(1, chosen_list_len)
+        print(f"Question num to choose: {random_question_num}")
+        print(f"Question to replace: {equations[random_question_num-1]}")
+        print()
+
+        # Generates numbers between set range
+        w = main_rng(1, 20)
+        l = main_rng(1, 20)
+            
+        # Use replace() to enter the width & length numbers into equation
+        replaced_equation = equations[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l))
+        print(f"Equation: {replaced_equation}")
+
+        # Evaluate equation to get value of 'x'
+        x = eval(replaced_equation) 
         
-    # Use replace() to enter the width & length numbers into equation
-    replaced_equation = equations[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l))
-    print(f"Equation: {replaced_equation}")
+        # Use replace() to insert the width, length or 'x' numbers into answer
+        replaced_answer = answers[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
+        print(f"Answer: {replaced_answer}")
 
-    # Evaluate equation to get value of 'x'
-    x = eval(replaced_equation) 
-       
-    # Use replace() to insert the width, length or 'x' numbers into answer
-    replaced_answer = answers[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
-    print(f"Answer: {replaced_answer}")
+        # Use replace() to enter the width, length & 'x' numbers into question
+        replaced_question = questions[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
+        print(f"Question: {replaced_question}")
 
-    # Use replace() to enter the width, length & 'x' numbers into question
-    replaced_question = questions[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
-    print(f"Question: {replaced_question}")
+        # Continue loop for difficulty
+        print()
+        input(print("More Questions? "))
           
-    # Temp loop
+    # Continue loop for difficulty
     print()
     input(print("Do you want loop? "))
