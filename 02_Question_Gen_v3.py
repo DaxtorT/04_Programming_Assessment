@@ -63,13 +63,11 @@ def main_rng(low, high):
     return random_num
 
 # Main Routine goes here
-a = 0
-b = 0
-c = 0
+# Program Constants
+rounds_played = 0
 
 # List & Dicts for program
 difficulties_list = ["easy", "medium", "hard"]
-types_list = ["geometry", "basic", "mixed"]
 
 # Lists of Questions
 geo_eas_questions = ["Square with perimeter <x>, what is the width? ",
@@ -118,76 +116,90 @@ geo_hrd_answers = ["<x>",
                    "<x>"
                   ]
 
-# Loop for difficulty
-loop = "y"
-while loop == "y":
+# Ask user for difficulty of question
+user_difficulty_choice = choice_checker("What level of questions do you want to play? ", f"Please choose from 'easy', 'medium', 'hard'", difficulties_list)
+print(f"You chose '{user_difficulty_choice}'")
+print()
 
-    # Ask user for difficulty of question
-    user_difficulty_choice = choice_checker("What level of questions do you want to play? ", f"Please choose from 'easy', 'medium', 'hard'", difficulties_list)
-    print(f"You chose '{user_difficulty_choice}'")
+# If / Elif for difficulity choice
+if user_difficulty_choice == "easy":
+    # Sets Equation List
+    equations = geo_eas_equations
+    # Sets Question List
+    questions = geo_eas_questions
+    # Sets Answer List
+    answers = geo_eas_answers
+
+elif user_difficulty_choice == "medium":
+    # Sets Equation List
+    equations = geo_med_equations
+    # Sets Question List
+    questions = geo_med_questions
+    # Sets Answer List
+    answers = geo_med_answers
+
+elif user_difficulty_choice == "hard":
+    # Sets Equation List
+    equations = geo_hrd_equations
+    # Sets Question List
+    questions = geo_hrd_questions
+    # Sets Answer List
+    answers = geo_hrd_answers
+
+# Ask user for # of rounds, <enter> for infinite mode
+rounds = int_checker("How Many Rounds? <Enter for Infinite> ", 1, exit_code="")
+
+# Loop for questions
+end_round = "no"
+while end_round == "no":
+    
+    # Rounds Heading
     print()
-
-    # If / Elif for difficulity choice
-    if user_difficulty_choice == "easy":
-        # Sets Equation List
-        equations = geo_eas_equations
-        # Sets Question List
-        questions = geo_eas_questions
-        # Sets Answer List
-        answers = geo_eas_answers
-
-    elif user_difficulty_choice == "medium":
-        # Sets Equation List
-        equations = geo_med_equations
-        # Sets Question List
-        questions = geo_med_questions
-        # Sets Answer List
-        answers = geo_med_answers
-
-    elif user_difficulty_choice == "hard":
-        # Sets Equation List
-        equations = geo_hrd_equations
-        # Sets Question List
-        questions = geo_hrd_questions
-        # Sets Answer List
-        answers = geo_hrd_answers
-
-    # Loop for questions
-    loop_2 = "y"
-    while loop_2 == "y":
-
-        # Random question gen
-        chosen_list_len = len(questions)
-        print(f"Length of list: {chosen_list_len}")
-
-        random_question_num = random.randint(1, chosen_list_len)
-        print(f"Question num to choose: {random_question_num}")
-        print(f"Question to replace: {equations[random_question_num-1]}")
-        print()
-
-        # Generates numbers between set range
-        w = main_rng(1, 20)
-        l = main_rng(1, 20)
-            
-        # Use replace() to enter the width & length numbers into equation
-        replaced_equation = equations[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l))
-        print(f"Equation: {replaced_equation}")
-
-        # Evaluate equation to get value of 'x'
-        x = eval(replaced_equation) 
+    if rounds == "":
+        heading = f"Continous Mode: Round {rounds_played + 1}"
         
-        # Use replace() to insert the width, length or 'x' numbers into answer
-        replaced_answer = answers[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
-        print(f"Answer: {replaced_answer}")
+    else:
+        heading = f"Round {rounds_played + 1} of {rounds}"
+        
+    print(heading)
 
-        # Use replace() to enter the width, length & 'x' numbers into question
-        replaced_question = questions[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
-        print(f"Question: {replaced_question}")
+    # Gets length of question list to set range for question choice
+    chosen_list_len = len(questions)
+    # For testing
+    print(f"Length of list: {chosen_list_len}")
 
-        # Continue loop for difficulty
-        print()
-        input(print("More Questions? "))
-          
-    # Continue loop for difficulty
+    # Chooses random num from range set above for question to choose
+    random_question_num = random.randint(1, chosen_list_len)
+    # For testing
+    print(f"Question num to choose: {random_question_num}")
+    print(f"Question to replace: {equations[random_question_num-1]}")
     print()
-    input(print("Do you want loop? "))
+
+    # Generates width and length numbers between set range
+    w = main_rng(1, 20)
+    l = main_rng(1, 20)
+        
+    # Use replace() to enter the width & length numbers into equation
+    replaced_equation = equations[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l))
+    # For testing
+    print(f"Equation: {replaced_equation}")
+
+    # Evaluate equation(above) to get value of 'x'
+    x = eval(replaced_equation) 
+    
+    # Use replace() to insert the width, length or 'x' numbers into answer
+    replaced_answer = answers[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
+    # For testing
+    print(f"Answer: {replaced_answer}")
+
+    # Use replace() to enter the width, length & 'x' numbers into question
+    replaced_question = questions[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
+    # For testing
+    print(f"Question: {replaced_question}")
+    print()
+    print()
+
+    rounds_played += 1
+    
+    if rounds_played == rounds:
+        end_round = "yes"
