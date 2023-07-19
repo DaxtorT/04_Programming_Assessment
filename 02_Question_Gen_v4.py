@@ -100,25 +100,33 @@ geo_med_answers = ["<x>",
                    "<l>"
                   ]
 
-geo_hrd_questions = ["Rectangle with perimeter <x> and length <l> what is the area? ",
-                     "Square with perimeter <x> what is the area? ",
-                     "Triangle with length <l>, width <w> what is the area? ",
-                     "Triangle with hypotenuse <x> and length <l> what is the area? "
+geo_hrd_questions = ["Rectangle with perimeter <x> and length <l>. What is the area? ",
+                     "Rectangle with width <w> and length <l>. What is the area?",
+                     "Square with perimeter <x>. What is the area? ",
+                     "Triangle with length <l> and width <w>. What is the area? ",
+                     "Triangle with hypotenuse <x> and length <l>. What is the area? ",
+                     "Triangle with hypotenuse <x> and width <w>. What is the area? "
                     ]
 geo_hrd_equations = ["(2 * (<w> + <l>))",
-                     "Square with perimeter {a} what is the area? ",
-                     "Triangle with length {a}, width {b} what is the area? ",
-                     "Triangle with hypotenuse {a} and length {b} what is the area? "
+                     "(2 * (<l> + <w>))",
+                     "4 * <w>",
+                     "math.sqrt(<w> ** 2 + <l> ** 2)",
+                     "math.sqrt(<l> ** 2 + <w> ** 2)",
+                     "math.sqrt(<l> * <l> + <w> * <l>)"
                     ]
-geo_hrd_equations_2 = ["(2 * (<w> + <l>))",
-                     "Square with perimeter {a} what is the area? ",
-                     "Triangle with length {a}, width {b} what is the area? ",
-                     "Triangle with hypotenuse {a} and length {b} what is the area? "
-                    ]
-geo_hrd_answers = ["<x>",
-                   "<w>",
-                   "<l>",
-                   "<x>"
+geo_hrd_equations_2 = ["<w> * <l>",
+                       "<l> * <w>",
+                       "<w> ** 2",
+                       "0.5 * <w> * <l>",
+                       "<w> * 0.5 * <l>",
+                       "<l> * <w> * 0.5"
+                      ]
+geo_hrd_answers = ["<x2>",
+                   "<x2>",
+                   "<x2>",
+                   "<x2>",
+                   "<x2>",
+                   "<x2>"
                   ]
 
 # Ask user for difficulty of question
@@ -185,7 +193,10 @@ while end_round == "no":
     # Generates width and length numbers between set range
     w = main_rng(1, 20)
     l = main_rng(1, 20)
-        
+    # Quick check to make sure width and length aren't equal (A rectangle with length 5 and width 5 is not a rectangle)
+    if l == w:
+        l = main_rng(1, 20)
+
     # Use replace() to enter the width & length numbers into equation
     replaced_equation = equations[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l))
     # For testing
@@ -205,7 +216,7 @@ while end_round == "no":
         x_2 = eval(replaced_equation_2) 
 
     # Use replace() to insert the width, length or 'x' numbers into answer
-    replaced_answer = answers[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
+    replaced_answer = answers[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x)).replace("<x2>", str(x_2))
     # For testing
     print(f"Answer: {replaced_answer}")
 
@@ -214,14 +225,16 @@ while end_round == "no":
     if user_difficulty_choice == "easy" or user_difficulty_choice == "medium":
         # Use replace() to enter the width, length & 'x' numbers into question
         replaced_question = questions[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
+        # For testing
         print(f"Question: {replaced_question}")
 
     elif user_difficulty_choice == "hard":
         # Extra question replcement to enter the required numbers into question
         replaced_question_2 = questions[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x)).replace("<x2>", str(x_2))
+        # For testing
+        print(f"Question: {replaced_question_2}")
 
-    # For testing
-    print(f"Question: {replaced_question}")
+    # Empty print statements for ease
     print()
     print()
 
