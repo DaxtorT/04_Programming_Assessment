@@ -112,8 +112,8 @@ geo_eas_questions = ["Square with perimeter <x>. What is the width? ",
                     ]
 geo_eas_equations = ["4 * <w>",
                      "2 * (<w> + <l>)",
-                     "2 * (<l> + <w>)",
-                     "(<w> + <l>) * 2"
+                     "2 * (<w> + <l>)",
+                     "2 * (<w> + <l>)"
                     ]
 geo_eas_answers = ["<w>",
                    "<w>",
@@ -121,13 +121,13 @@ geo_eas_answers = ["<w>",
                    "<x>"
                   ]
 # All Medium diff Questions, Equations and Answers
-geo_med_questions = ["Triangle with width <w> and length <l>. What is the hypotenuse? ",
-                     "Triangle with length <l> and hypotenuse <x>. What is the width? ",
-                     "Triangle with width <w> and hypotenuse <x>. What is the length? "
+geo_med_questions = ["Right-Angled Triangle with base <w> and height <l>. What is the hypotenuse? ",
+                     "Right-Angled Triangle with base <l> and hypotenuse <x>. What is the height? ",
+                     "Right-Angled Triangle with height <w> and hypotenuse <x>. What is the base? "
                     ]
-geo_med_equations = ["math.sqrt(<w> ** 2 + <l> ** 2)",
+geo_med_equations = ["math.sqrt(<l> ** 2 + <w> ** 2)",
                      "math.sqrt(<l> ** 2 + <w> ** 2)",
-                     "math.sqrt(<l> * <l> + <w> * <l>)"
+                     "math.sqrt(<l> ** 2 + <w> ** 2)"
                     ]
 geo_med_answers = ["<x>",
                    "<w>",
@@ -137,23 +137,23 @@ geo_med_answers = ["<x>",
 geo_hrd_questions = ["Rectangle with perimeter <x> and length <l>. What is the area? ",
                      "Rectangle with width <w> and length <l>. What is the area?",
                      "Square with perimeter <x>. What is the area? ",
-                     "Triangle with length <l> and width <w>. What is the area? ",
-                     "Triangle with hypotenuse <x> and length <l>. What is the area? ",
-                     "Triangle with hypotenuse <x> and width <w>. What is the area? "
+                     "Right-Angled Triangle with base <l> and height <w>. What is the area? ",
+                     "Right-Angled Triangle with hypotenuse <x> and base <l>. What is the area? ",
+                     "Right-Angled Triangle with hypotenuse <x> and height <w>. What is the area? "
                     ]
 geo_hrd_equations = ["(2 * (<w> + <l>))",
-                     "(2 * (<l> + <w>))",
+                     "(2 * (<w> + <l>))",
                      "4 * <w>",
                      "math.sqrt(<w> ** 2 + <l> ** 2)",
-                     "math.sqrt(<l> ** 2 + <w> ** 2)",
-                     "math.sqrt(<l> * <l> + <w> * <l>)"
+                     "math.sqrt(<w> ** 2 + <l> ** 2)",
+                     "math.sqrt(<w> ** 2 + <l> ** 2)"
                     ]
 geo_hrd_equations_2 = ["<w> * <l>",
-                       "<l> * <w>",
+                       "<w> * <l>",
                        "<w> ** 2",
                        "0.5 * <w> * <l>",
-                       "<w> * 0.5 * <l>",
-                       "<l> * <w> * 0.5"
+                       "0.5 * <w> * <l>",
+                       "0.5 * <w> * <l>"
                       ]
 geo_hrd_answers = ["<x2>",
                    "<x2>",
@@ -214,8 +214,16 @@ elif user_difficulty_choice == "hard":
     answers = geo_hrd_answers
 
 # Ask user for # of rounds, <enter> for infinite mode
-rounds = int(int_checker("How Many Rounds? <Enter for Infinite> ", 1, exit_code=""))
+rounds = int_checker("How Many Rounds? <Enter for Infinite> ", 1, None, "")
 print()
+
+# Continuous mode or Regular
+if rounds == "":
+    continuous_mode = "yes"
+
+else:
+    rounds = int(rounds)
+    continuous_mode = "no"
 
 # Quiz Begin statment
 quiz_beginning = statement_deco("*", "-", "Let's Begin the Quizzing!", 1)
@@ -226,10 +234,10 @@ end_round = "no"
 while end_round == "no":
     
     # Rounds Heading
-    if rounds == "":
-        heading = f"Continous Mode: Round {rounds_played + 1}"
+    if continuous_mode == "yes":
+        heading = f"Continuous Mode: Round {rounds_played + 1}"
         
-    else:
+    elif continuous_mode == "no":
         heading = f"Round {rounds_played + 1} of {rounds}"
         
     print(heading)
@@ -284,14 +292,15 @@ while end_round == "no":
 
     # Get users answer to question above
     your_ans = int_checker("What is your answer? ", 0, None, "xxx")
-    your_ans = float(your_ans)
 
     # Stops rounds if exit code is entered
     if your_ans == "xxx":
-        rounds_played -= 1
         end_round = "yes"
         print()
         break
+
+    # Convert answer to float so answer comparison can be done
+    your_ans = float(your_ans)
 
     # If, elif statements to check if answer is correct or not
     if your_ans == float(round(Decimal(replaced_answer), 1)):
@@ -301,7 +310,7 @@ while end_round == "no":
        
     else:
         result = "incorrect"
-        print("Thats Wrong, Sorry")
+        print(f"Thats Wrong, Sorry. Answer was: {round(Decimal(replaced_answer), 1)}")
         answers_wrong += 1
 
     # Empty Print statement for separation
