@@ -85,7 +85,7 @@ def instructions_print():
     print("Playing 'The Mighty Math Quiz' is quite simple (Apart from the questions).")
     print("All you have to do is choose which level of questions to quiz.")
     print("You can choose 'Easy', 'Medium', or 'Hard'.")
-    print("Then enter a number of rounds to play (Wholes numbers only).")
+    print("Then enter a number of questions to answer (Wholes numbers only).")
     print("Or you can press enter to play 'Continous Mode', to exit this mode type 'xxx' to stop the rounds.")
     print("Finally you will be asked if you want to see you game summary or statistics.")
     print("NOTE: Programs answers are rounded to 1 d.p., so dont forget to do that.")
@@ -214,7 +214,7 @@ elif user_difficulty_choice == "hard":
     answers = geo_hrd_answers
 
 # Ask user for # of rounds, <enter> for infinite mode
-rounds = int_checker("How Many Rounds? <Enter for Infinite> ", 1, None, "")
+rounds = int_checker("How Many Questions? <Enter for Infinite> ", 1, None, "")
 print()
 
 # Continuous mode or Regular
@@ -235,10 +235,10 @@ while end_round == "no":
     
     # Rounds Heading
     if continuous_mode == "yes":
-        heading = f"Continuous Mode: Round {rounds_played + 1}"
+        heading = f"Continuous Mode: Question {rounds_played + 1}"
         
     elif continuous_mode == "no":
-        heading = f"Round {rounds_played + 1} of {rounds}"
+        heading = f"Question {rounds_played + 1} of {rounds}"
         
     print(heading)
 
@@ -283,6 +283,7 @@ while end_round == "no":
         replaced_question = questions[random_question_num-1].replace("<w>", str(w)).replace("<l>", str(l)).replace("<x>", str(x))
         # Print final question with number filled in
         print(f"Question: {replaced_question}")
+        print(f"Answer: {replaced_answer}")
 
     elif user_difficulty_choice == "hard":
         # Extra question replcement to enter the required numbers into question
@@ -352,4 +353,4 @@ if stats_show == "yes" or stats_show == 'y':
 
 # Formats and prints the quiz end statement
 end_statement = statement_deco("!", "-", "Thanks For Playing", 1)
-print(end_statement)
+print(end_statement)    
